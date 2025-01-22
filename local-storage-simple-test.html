@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BB Storage Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        #output {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Storage Test</h2>
+    <div id="output">Status will appear here</div>
+    <button onclick="writeTest()">Write Test Value</button>
+    <button onclick="readTest()">Read Test Value</button>
+    <button onclick="clearTest()">Clear Storage</button>
+
+    <script>
+        function updateOutput(message) {
+            document.getElementById('output').textContent = message;
+        }
+
+        function writeTest() {
+            try {
+                localStorage.setItem('test_key', 'Hello BlackBerry: ' + new Date().toLocaleTimeString());
+                updateOutput('Write successful! Try reading the value now.');
+            } catch(e) {
+                updateOutput('Error writing to storage: ' + e.message);
+            }
+        }
+
+        function readTest() {
+            try {
+                const value = localStorage.getItem('test_key');
+                if (value) {
+                    updateOutput('Read value: ' + value);
+                } else {
+                    updateOutput('No value found - try writing one first');
+                }
+            } catch(e) {
+                updateOutput('Error reading from storage: ' + e.message);
+            }
+        }
+
+        function clearTest() {
+            try {
+                localStorage.clear();
+                updateOutput('Storage cleared');
+            } catch(e) {
+                updateOutput('Error clearing storage: ' + e.message);
+            }
+        }
+
+        // Test localStorage availability
+        if (typeof localStorage === 'undefined') {
+            updateOutput('localStorage is NOT available on this browser');
+        } else {
+            updateOutput('localStorage is available. Click buttons to test.');
+        }
+    </script>
+</body>
+</html>
