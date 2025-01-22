@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BB JS Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        #output {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h2>JavaScript Test</h2>
+    <div id="output">If you see this text unchanged, JavaScript is not running.</div>
+    <button onclick="simpleAlert()">Test Alert</button>
+    <button onclick="simpleUpdate()">Test DOM Update</button>
+
+    <script>
+        // Simple function to show an alert
+        function simpleAlert() {
+            alert('Button clicked!');
+        }
+
+        // Simple function to update the page
+        function simpleUpdate() {
+            document.getElementById('output').textContent = 'Text updated at: ' + new Date().toLocaleTimeString();
+        }
+
+        // Test if JavaScript runs on load
+        document.getElementById('output').textContent = 'JavaScript is running!';
+    </script>
+</body>
+</html>
