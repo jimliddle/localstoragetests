@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BB Storage Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            font-size: 14px;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h2>LocalStorage Test</h2>
+    <div id="results"></div>
+    <button onclick="runTests()">Run Tests</button>
+    <button onclick="clearStorage()">Clear Storage</button>
+
+    <script>
+        function log(message, isError = false) {
+            const div = document.createElement('div');
+            div.className = 'result ' + (isError ? 'error' : 'success');
+            div.textContent = message;
+            document.getElementById('results').appendChild(div);
+        }
+
+        function testLocalStorage() {
+            try {
+                // Test 1: Basic availability
+                log('Test 1: Checking if localStorage is available...');
+                if (typeof localStorage === 'undefined') {
+                    throw new Error('localStorage is not available');
+                }
+                log('localStorage is available');
+
+                // Test 2: Write attempt
+                log('Test 2: Attempting to write to localStorage...');
+                localStorage.setItem('test_key', 'test_value');
+                log('Successfully wrote to localStorage');
+
+                // Test 3: Read attempt
+                log('Test 3: Attempting to read from localStorage...');
+                const value = localStorage.getItem('test_key');
+                if (value !== 'test_value') {
+                    throw new Error('Read value does not match written value');
+                }
+                log('Successfully read from localStorage: ' + value);
+
+                // Test 4: Storage size
+                log('Test 4: Checking storage size...');
+                let size = 0;
+                for(let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    size += localStorage.getItem(key).length;
+                }
+                log('Current storage size: ' + size + ' bytes');
+                log('Number of items in storage: ' + localStorage.length);
+
+                // Test 5: List all keys
+                log('Test 5: Listing all storage keys...');
+                for(let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    log('Key found: ' + key + ' = ' + localStorage.getItem(key));
+                }
+
+            } catch (e) {
+                log('ERROR: ' + e.message, true);
+                log('Browser Info: ' + navigator.userAgent, true);
+            }
+        }
+
+        function clearStorage() {
+            try {
+                localStorage.clear();
+                document.getElementById('results').innerHTML = '';
+                log('Storage cleared successfully');
+            } catch (e) {
+                log('Error clearing storage: ' + e.message, true);
+            }
+        }
+
+        function runTests() {
+            document.getElementById('results').innerHTML = '';
+            testLocalStorage();
+        }
+
+        // Run tests automatically on load
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
